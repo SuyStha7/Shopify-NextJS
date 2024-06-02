@@ -6,7 +6,7 @@ import NavbarIcons from "./NavbarIcons";
 
 const Navbar = () => {
   return (
-    <div className='h-20 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative'>
+    <div className='fixed top-0 left-0 w-full bg-white shadow-md h-20 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 z-50'>
       {/* mobile */}
       <div className='h-full flex items-center justify-between md:hidden'>
         <Link href='/'>
@@ -26,7 +26,7 @@ const Navbar = () => {
               src='/logo.png'
               width={24}
               height={24}
-              alt=''
+              alt='Logo'
             />
             <div className='text-2xl tracking-wide'>SHOPIFY</div>
           </Link>
