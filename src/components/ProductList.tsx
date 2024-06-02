@@ -26,7 +26,7 @@ const ProductList = () => {
 
         <div className='flex justify-between'>
           <span className='font-medium'>Product name</span>
-          <span className='font-semibold'>$49</span>
+          <span className='font-semibold'>Rs.49</span>
         </div>
 
         <div>
@@ -60,7 +60,7 @@ const ProductList = () => {
 
         <div className='flex justify-between'>
           <span className='font-medium'>Product name</span>
-          <span className='font-semibold'>$49</span>
+          <span className='font-semibold'>Rs.49</span>
         </div>
 
         <div>
@@ -94,7 +94,7 @@ const ProductList = () => {
 
         <div className='flex justify-between'>
           <span className='font-medium'>Product name</span>
-          <span className='font-semibold'>$49</span>
+          <span className='font-semibold'>Rs.49</span>
         </div>
 
         <div>
@@ -128,7 +128,7 @@ const ProductList = () => {
 
         <div className='flex justify-between'>
           <span className='font-medium'>Product name</span>
-          <span className='font-semibold'>$49</span>
+          <span className='font-semibold'>Rs.49</span>
         </div>
 
         <div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className='pt-24 pb-16 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 bg-gray-100 text-sm mt-24'>
+    <div className='pt-24 pb-10 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 bg-gray-100 text-sm mt-24'>
       {/* top */}
       <div className='flex flex-col md:flex-row justify-between gap-24'>
         {/* left */}
@@ -134,11 +134,11 @@ const Footer = () => {
 
       {/* bottom */}
       <div className='flex flex-col md:flex-row items-center justify-between gap-8 mt-16'>
-        <div>&#169; 2024 Shopify</div>
+        <div>Copyright &#169; 2024 Shopify</div>
         <div className='flex flex-col gap-8 md:flex-row text-center'>
           <div>
             <span className='text-gray-500 mr-4'>Currency</span>
-            <span className='font-medium'>$ USD</span>
+            <span className='font-medium'>Rs. NPR</span>
           </div>
           <div>
             <span className='text-gray-500 mr-4'>Languages</span>
