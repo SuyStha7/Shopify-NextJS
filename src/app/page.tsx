@@ -14,6 +14,7 @@ const HomePage = async () => {
           <ProductList
             categoryId={process.env.FEATURED_PRODUCT_CATEGORY_ID!}
             limit={4}
+            isHomepage={true} 
           />
         </Suspense>
       </div>
@@ -32,6 +33,7 @@ const HomePage = async () => {
         <ProductList
           categoryId={process.env.FEATURED_PRODUCT_CATEGORY_ID!}
           limit={4}
+          isHomepage={true}
         />
       </div>
     </div>

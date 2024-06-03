@@ -11,10 +11,12 @@ const ProductList = async ({
   categoryId,
   limit,
   searchParams,
+  isHomepage,
 }: {
   categoryId: string;
   limit?: number;
   searchParams?: any;
+  isHomepage?: boolean;
 }) => {
   const wixClient = await wixClientServer();
   const productQuery = await wixClient.products
@@ -34,10 +36,10 @@ const ProductList = async ({
   if (searchParams?.sort) {
     const [sortType, sortBy] = searchParams?.sort.split(" ");
 
-    if (sortType == "asc") {
+    if (sortType === "asc") {
       productQuery.ascending(sortBy);
     }
-    if (sortType == "desc") {
+    if (sortType === "desc") {
       productQuery.descending(sortBy);
     }
   }
@@ -97,11 +99,13 @@ const ProductList = async ({
         </Link>
       ))}
 
-      <Pagination
-        currentPage={res.currentPage || 0}
-        hasPrev={res.hasPrev()}
-        hasNext={res.hasNext()}
-      />
+      {!isHomepage && (
+        <Pagination
+          currentPage={res.currentPage || 0}
+          hasPrev={res.hasPrev()}
+          hasNext={res.hasNext()}
+        />
+      )}
     </div>
   );
 };

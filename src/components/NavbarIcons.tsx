@@ -5,19 +5,26 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CartModal from "./CartModal";
+import { useWixClient } from "@/hooks/useWixClient";
 
 const NavbarIcons = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const isLoggedIn = false; //temporary
+  const wixClient = useWixClient();
   const router = useRouter();
+
+  const isLoggedIn = wixClient.auth.loggedIn();
+
+  if (isLoggedIn) {
+    router.push("/");
+  }
 
   const handleProfile = () => {
     if (!isLoggedIn) {
       router.push("/login");
+    } else {
+      setIsProfileOpen((prev) => !prev);
     }
-    setIsProfileOpen((prev) => !prev);
   };
 
   return (
