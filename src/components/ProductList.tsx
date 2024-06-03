@@ -3,25 +3,46 @@ import Link from "next/link";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { products } from "@wix/stores";
 import DOMPurify from "isomorphic-dompurify";
+import Pagination from "./Pagination";
 
-const PRODUCT_PER_PAGE = 20;
+const PRODUCT_PER_PAGE = 8;
 
 const ProductList = async ({
   categoryId,
   limit,
-  searchParams
+  searchParams,
 }: {
   categoryId: string;
   limit?: number;
-  searchParams?: any
+  searchParams?: any;
 }) => {
   const wixClient = await wixClientServer();
-  const res = await wixClient.products
+  const productQuery = await wixClient.products
     .queryProducts()
+    .startsWith("name", searchParams?.name || "")
     .eq("collectionIds", categoryId)
+    .hasSome("productType", [searchParams?.type || "physical", "digital"])
+    .gt("priceData.price", searchParams?.min || 0)
+    .lt("priceData.price", searchParams?.max || 99999)
     .limit(limit || PRODUCT_PER_PAGE)
-    .find();
-  console.log(res.items[0].price);
+    .skip(
+      searchParams?.page
+        ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+        : 0
+    );
+
+  if (searchParams?.sort) {
+    const [sortType, sortBy] = searchParams?.sort.split(" ");
+
+    if (sortType == "asc") {
+      productQuery.ascending(sortBy);
+    }
+    if (sortType == "desc") {
+      productQuery.descending(sortBy);
+    }
+  }
+
+  const res = await productQuery.find();
 
   return (
     <div className='mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap'>
@@ -51,7 +72,9 @@ const ProductList = async ({
 
           <div className='flex justify-between'>
             <span className='font-medium'>{product.name}</span>
-            <span className='font-semibold'>Rs.{product.price?.discountedPrice}</span>
+            <span className='font-semibold'>
+              Rs.{product.price?.discountedPrice}
+            </span>
           </div>
 
           <div>
@@ -61,7 +84,7 @@ const ProductList = async ({
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(
                     product.additionalInfoSections?.find(
-                      (section: any) => section.title === "shortDesc"
+                      (section: any) => section.title === "SHORT DESCRIPTION"
                     )?.description || ""
                   ),
                 }}></div>
@@ -73,6 +96,12 @@ const ProductList = async ({
           </button>
         </Link>
       ))}
+
+      <Pagination
+        currentPage={res.currentPage || 0}
+        hasPrev={res.hasPrev()}
+        hasNext={res.hasNext()}
+      />
     </div>
   );
 };

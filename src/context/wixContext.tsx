@@ -5,7 +5,15 @@ import { products, collections } from "@wix/stores";
 import Cookies from "js-cookie";
 import { ReactNode, createContext } from "react";
 
-const refreshToken = JSON.parse(Cookies.get("refreshToken") || "{}");
+// Safely parse the refreshToken cookie
+const refreshTokenCookie = Cookies.get("refreshToken");
+const refreshToken = refreshTokenCookie ? JSON.parse(refreshTokenCookie) : {};
+
+// Ensure clientId is a string and handle the case where it might be undefined
+const clientId = process.env.NEXT_PUBLIC_WIX_CLIENT_ID;
+if (!clientId) {
+  throw new Error("NEXT_PUBLIC_WIX_CLIENT_ID environment variable is not set");
+}
 
 const wixClient = createClient({
   modules: {
@@ -14,7 +22,7 @@ const wixClient = createClient({
     // currentCart
   },
   auth: OAuthStrategy({
-    clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID,
+    clientId, // Since we checked for clientId, it is guaranteed to be a string here
     tokens: {
       refreshToken,
       accessToken: { value: "", expiresAt: 0 },

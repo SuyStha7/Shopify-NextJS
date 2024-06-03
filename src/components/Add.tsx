@@ -2,17 +2,25 @@
 
 import { useState } from "react";
 
-const Add = () => {
+const Add = ({
+  productId,
+  variantId,
+  stockNo,
+}: {
+  productId: string;
+  variantId: string;
+  stockNo: number;
+}) => {
   const [quantity, setQuantity] = useState(1);
 
   //   temp
-  const stock = 4;
+  // const stock = 4;
 
   const handleQuantity = (type: "i" | "d") => {
     if (type === "d" && quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
-    if (type === "i" && quantity < stock) {
+    if (type === "i" && quantity < stockNo) {
       setQuantity((prev) => prev + 1);
     }
   };
@@ -35,11 +43,16 @@ const Add = () => {
               +
             </button>
           </div>
-          <div className='text-xs'>
-            Only <span className='text-orange-500'>4 items</span> left! <br />{" "}
-            {"Don't"} miss it
-          </div>
+          {stockNo < 1 ? (
+            <div className='text-xs'>Product is out of stock</div>
+          ) : (
+            <div className='text-xs'>
+              Only <span className='text-orange-500'>{stockNo} items</span>{" "}
+              left! <br /> {"Don't"} miss it
+            </div>
+          )}
         </div>
+        
         <button className='w-36 text-sm rounded-3xl ring-1 ring-primary text-primary py-2 px-4 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:bg-orange-200 disabled:ring-none'>
           Add to cart
         </button>

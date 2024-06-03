@@ -1,9 +1,9 @@
-import Add from "@/components/Add";
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
 import DOMPurify from "isomorphic-dompurify";
+import Add from "@/components/Add";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
   const wixClient = await wixClientServer();
@@ -31,7 +31,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <p
           className='text-gray-500'
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(product.description),
+            __html: DOMPurify.sanitize(product.description ?? ""),
           }}
         />
 
@@ -50,14 +50,19 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         )}
 
         <div className='h-[2px] bg-gray-100' />
-        {product.variants && product.productOptions && (
+        {product.variants && product.productOptions ? (
           <CustomizeProducts
             productId={product._id}
             variants={product.variants}
             productOptions={product.productOptions}
           />
+        ) : (
+          <Add
+            productId={product._id}
+            variantId='00000000-000000-000000-000000000001'
+            stockNo={product.stock?.quantity || 0}
+          />
         )}
-        <Add />
 
         <div className='h-[2px] bg-gray-100' />
         {product.additionalInfoSections?.map((section: any) => (
